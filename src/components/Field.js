@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { log } from 'handlebars';
 
 class Field extends Component {
   render() {
@@ -16,15 +17,25 @@ class Field extends Component {
     );
   }
 
+  onInputUpdate = e => {
+    let newValue;
+    if (e.target.type === 'checkbox') {
+      newValue = e.target.checked;
+    } else {
+      newValue = e.target.value;
+    }
+    this.props.onChange(this.props.field, newValue);
+  };
+
   renderControl = field => {
     const { onChange } = this.props;
 
     switch (field.type) {
       case 'checkbox':
-        return <input type="checkbox" onChange={onChange} />;
+        return <input type="checkbox" onChange={this.onInputUpdate} />;
 
       default:
-        return <textarea cols={45} rows={3} onChange={onChange} />;
+        return <textarea cols={45} rows={3} onChange={this.onInputUpdate} />;
     }
   };
 }
